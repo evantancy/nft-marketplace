@@ -1,30 +1,17 @@
-import "./App.css";
 import { useMoralis } from "react-moralis";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import Inventory from "./pages/Inventory";
 import Transaction from "./pages/Transaction";
 import ErrorPage from "./pages/ErrorPage";
-
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
-const Greet = () => {
-    const { user } = useMoralis();
-    return (
-        <div>
-            <h1>Welcome {user.get("username")}</h1>
-        </div>
-    );
-};
-
-const Body = () => {
-    return <div>Bing Bong</div>;
-};
+import { Nav, Navbar, NavDropdown, Container } from "react-bootstrap";
 
 function App() {
     return (
         <Router>
-            <div className="App">
+            {/* configure routes */}
+            <div>
                 <div className="container">
                     <Routes>
                         <Route path="/" element={<Home />} />

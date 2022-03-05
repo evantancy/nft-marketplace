@@ -4,15 +4,14 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { MoralisProvider } from "react-moralis";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const dotenv = require("dotenv");
+const APP_ID = process.env.MORALIS_APP_ID;
+const URL = process.env.MORALIS_URL;
 
 ReactDOM.render(
     <React.StrictMode>
-        <MoralisProvider
-            appId={dotenv.MORALIS_APP_ID}
-            serverUrl={dotenv.MORALIS_URL}
-        >
+        <MoralisProvider appId={APP_ID} serverUrl={URL}>
             <App />
         </MoralisProvider>
     </React.StrictMode>,
