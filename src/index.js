@@ -5,9 +5,10 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { MoralisProvider } from "react-moralis";
 import "bootstrap/dist/css/bootstrap.min.css";
+require("dotenv").config();
 
-const APP_ID = process.env.MORALIS_APP_ID;
-const URL = process.env.MORALIS_URL;
+const APP_ID = process.env.REACT_APP_MORALIS_APP_ID;
+const URL = process.env.REACT_APP_MORALIS_URL;
 
 ReactDOM.render(
     <React.StrictMode>
