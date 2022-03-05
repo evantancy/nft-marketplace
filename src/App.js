@@ -6,7 +6,7 @@ import Transaction from "./pages/Transaction";
 import ErrorPage from "./pages/ErrorPage";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { Nav, Navbar, Container } from "react-bootstrap";
-
+import { ConnectButton } from "web3uikit";
 function App() {
     return (
         <Router>
@@ -30,6 +30,9 @@ function App() {
                                 <Nav.Link as={Link} to="/transactions">
                                     Transactions
                                 </Nav.Link>
+                            </Nav>
+                            <Nav className="ml-auto">
+                                <ConnectButton />
                             </Nav>
                         </Container>
                     </Navbar>
