@@ -23,6 +23,7 @@ const ChainSelector = () => {
     const { switchNetwork, chainId, chain } = useChain();
     const { Moralis, isAuthenticated } = useMoralis();
     const [selectedChain, setSelectedChain] = useState("Select Chain");
+    const [selectedLogo, setSelectedLogo] = useState("");
 
     // change network whenever user selects from dropdown
     const changeNetwork = (hexChainId) => {
@@ -47,8 +48,8 @@ const ChainSelector = () => {
 
         return (
             <DropdownButton
-                id="dropdown-basic-button"
-                title={selectedChain}
+                id="dropdown-button-chainselector"
+                title={[selectedLogo, " ", selectedChain]}
                 onSelect={changeNetwork}
             >
                 {menuItems}
@@ -62,7 +63,9 @@ const ChainSelector = () => {
         if (currChainInfo === null) {
             setSelectedChain("Unknown");
         } else {
+            console.log(currChainInfo);
             setSelectedChain(currChainInfo.label);
+            setSelectedLogo(currChainInfo.prefix);
         }
     };
 
