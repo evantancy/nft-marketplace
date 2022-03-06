@@ -1,4 +1,4 @@
-import { AvaxLogo, PolygonLogo, BSCLogo, ETHLogo } from "./Logos";
+import { AvaxLogo, PolygonLogo, BSCLogo, ETHLogo, ArbLogo } from "./Logos";
 import { useChain, useMoralis } from "react-moralis";
 import { useEffect, useState } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
@@ -10,6 +10,7 @@ const chains = [
     { id: "0x4", label: "Rinkeby", prefix: <ETHLogo /> },
     { id: "0x2a", label: "Kovan", prefix: <ETHLogo /> },
     { id: "0x5", label: "Goerli", prefix: <ETHLogo /> },
+    { id: "0xa4b1", label: "Arbitrum", prefix: <ArbLogo /> },
     { id: "0x38", label: "BSC", prefix: <BSCLogo /> },
     { id: "0x61", label: "BSC Test", prefix: <BSCLogo /> },
     { id: "0x89", label: "Polygon", prefix: <PolygonLogo /> },
@@ -18,31 +19,62 @@ const chains = [
     { id: "0xa869", label: "AVAX Test", prefix: <AvaxLogo /> },
 ];
 
-const RenderMenuItems = () => {
-    const menuItems = [];
-
-    chains.forEach((obj, index) => {
-        menuItems.push(<Dropdown.Item key={index}>{obj.label}</Dropdown.Item>);
-    });
-
-    return menuItems;
-};
-
 const ChainSelector = () => {
-    const currentChain = "Idk";
     const { switchNetwork, chainId, chain } = useChain();
-    const { isAuthenticated } = useMoralis();
-    const [selected, setSelected] = useState({});
+    const { Moralis, isAuthenticated } = useMoralis();
+    const [selectedChain, setSelectedChain] = useState("Select Chain");
 
-    const chainHandler = () => {
-        console.log(1);
+    // change network whenever user selects from dropdown
+    const changeNetwork = (hexChainId) => {
+        try {
+            switchNetwork(hexChainId);
+            chainHandler();
+        } catch (error) {
+            console.log(error);
+        }
     };
 
+    // display all available options based on chains
+    const RenderMenuItems = () => {
+        const menuItems = [];
+        chains.forEach((obj) => {
+            menuItems.push(
+                <Dropdown.Item eventKey={obj.id}>
+                    {obj.prefix} {obj.label}
+                </Dropdown.Item>
+            );
+        });
+
+        return (
+            <DropdownButton
+                id="dropdown-basic-button"
+                title={selectedChain}
+                onSelect={changeNetwork}
+            >
+                {menuItems}
+            </DropdownButton>
+        );
+    };
+
+    // set dropdown button text to current chain
+    const chainHandler = (currChainId) => {
+        const currChainInfo = chains.find((item) => item.id === currChainId);
+        if (currChainInfo === null) {
+            setSelectedChain("Unknown");
+        } else {
+            setSelectedChain(currChainInfo.label);
+        }
+    };
+
+    // listen for chain events
+    Moralis.onChainChanged((chain) => {
+        chainHandler(chain);
+    });
+
+    // TODO: only show chain buttons when authenticated
     return (
         <div>
-            <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-                <RenderMenuItems />
-            </DropdownButton>
+            <RenderMenuItems />
         </div>
     );
 };
