@@ -7,6 +7,8 @@ import ErrorPage from "./pages/ErrorPage";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { Nav, Navbar, Container } from "react-bootstrap";
 import { ConnectButton } from "web3uikit";
+import ChainSelector from "./components/ChainSelector";
+
 function App() {
     return (
         <Router>
@@ -33,6 +35,7 @@ function App() {
                             </Nav>
                             <Nav className="ml-auto">
                                 <ConnectButton />
+                                <ChainSelector />
                             </Nav>
                         </Container>
                     </Navbar>
