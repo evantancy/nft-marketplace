@@ -17,12 +17,13 @@ function App() {
                     <Navbar bg="dark" variant="dark">
                         <Container>
                             <Navbar.Brand href="/">
-                                NFT Marketplace
+                                <Nav className="me-auto">
+                                    <Nav.Link as={Link} to="/">
+                                        NFT Marketplace
+                                    </Nav.Link>
+                                </Nav>
                             </Navbar.Brand>
                             <Nav className="me-auto">
-                                <Nav.Link as={Link} to="/">
-                                    Home
-                                </Nav.Link>
                                 <Nav.Link as={Link} to="/explore">
                                     Explore
                                 </Nav.Link>
