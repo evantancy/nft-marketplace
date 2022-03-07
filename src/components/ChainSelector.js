@@ -3,25 +3,32 @@ import { useChain, useMoralis } from "react-moralis";
 import { useEffect, useState } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 
-const chains = [
+const supportedChains = [
     { id: "0x539", label: "Local", prefix: "🥐" },
     { id: "0x1", label: "Ethereum", prefix: <ETHLogo /> },
-    { id: "0x3", label: "Ropsten", prefix: <ETHLogo /> },
-    { id: "0x4", label: "Rinkeby", prefix: <ETHLogo /> },
-    { id: "0x2a", label: "Kovan", prefix: <ETHLogo /> },
-    { id: "0x5", label: "Goerli", prefix: <ETHLogo /> },
-    { id: "0xa4b1", label: "Arbitrum", prefix: <ArbLogo /> },
+    { id: "0x3", label: "Ropsten Testnet", prefix: <ETHLogo /> },
+    { id: "0x4", label: "Rinkeby Testnet", prefix: <ETHLogo /> },
+    { id: "0x2a", label: "Kovan Testnet", prefix: <ETHLogo /> },
+    { id: "0x5", label: "Goerli Testnet", prefix: <ETHLogo /> },
+    // { id: "0xa4b1", label: "Arbitrum", prefix: <ArbLogo /> },
     { id: "0x38", label: "BSC", prefix: <BSCLogo /> },
-    { id: "0x61", label: "BSC Test", prefix: <BSCLogo /> },
+    { id: "0x61", label: "BSC Testnet", prefix: <BSCLogo /> },
     { id: "0x89", label: "Polygon", prefix: <PolygonLogo /> },
-    { id: "0x13881", label: "Mumbai", prefix: <PolygonLogo /> },
+    { id: "0x13881", label: "Mumbai Testnet", prefix: <PolygonLogo /> },
     { id: "0xa86a", label: "Avalanche", prefix: <AvaxLogo /> },
-    { id: "0xa869", label: "AVAX Test", prefix: <AvaxLogo /> },
+    { id: "0xa869", label: "Avalanche Testnet", prefix: <AvaxLogo /> },
 ];
 
+/*
+- show current chain when...
+    - user connects wallet
+    - user change chain
+- connect to new chain when user selects from dropdown
+- hide button until user connects wallet
+*/
 const ChainSelector = () => {
     const { switchNetwork, chainId, chain } = useChain();
-    const { Moralis, isAuthenticated } = useMoralis();
+    const { Moralis } = useMoralis();
     const [selectedChain, setSelectedChain] = useState("Select Chain");
     const [selectedLogo, setSelectedLogo] = useState("");
 
@@ -29,18 +36,18 @@ const ChainSelector = () => {
     const changeNetwork = (hexChainId) => {
         try {
             switchNetwork(hexChainId);
-            chainHandler();
+            chainHandler(chain);
         } catch (error) {
-            console.log(error);
+            console.log("ERROR", error);
         }
     };
 
     // display all available options based on chains
-    const RenderMenuItems = () => {
+    const RenderDropdown = () => {
         const menuItems = [];
-        chains.forEach((obj) => {
+        supportedChains.forEach((obj, index) => {
             menuItems.push(
-                <Dropdown.Item eventKey={obj.id}>
+                <Dropdown.Item eventKey={obj.id} key={index}>
                     {obj.prefix} {obj.label}
                 </Dropdown.Item>
             );
@@ -59,27 +66,30 @@ const ChainSelector = () => {
 
     // set dropdown button text to current chain
     const chainHandler = (currChainId) => {
-        const currChainInfo = chains.find((item) => item.id === currChainId);
+        const currChainInfo = supportedChains.find(
+            (item) => item.id === currChainId
+        );
         if (currChainInfo === null) {
             setSelectedChain("Unknown");
         } else {
-            console.log(currChainInfo);
+            // console.log(currChainInfo);
             setSelectedChain(currChainInfo.label);
             setSelectedLogo(currChainInfo.prefix);
         }
     };
 
-    // listen for chain events
+    // case: user changes chain
     Moralis.onChainChanged((chain) => {
+        // console.log("Chain changed");
         chainHandler(chain);
     });
+    // case: user first connected to website
+    Moralis.onWeb3Enabled((result) => {
+        // console.log("Account connected", result);
+        chainHandler(result.chainId);
+    });
 
-    // TODO: only show chain buttons when authenticated
-    return (
-        <div>
-            <RenderMenuItems />
-        </div>
-    );
+    return <div>{chainId !== null ? RenderDropdown() : ""}</div>;
 };
 
 export default ChainSelector;
