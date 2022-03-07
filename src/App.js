@@ -16,12 +16,8 @@ function App() {
                 <>
                     <Navbar bg="dark" variant="dark">
                         <Container>
-                            <Navbar.Brand href="/">
-                                <Nav className="me-auto">
-                                    <Nav.Link as={Link} to="/">
-                                        NFT Marketplace
-                                    </Nav.Link>
-                                </Nav>
+                            <Navbar.Brand as={Link} to="/">
+                                NFT Marketplace
                             </Navbar.Brand>
                             <Nav className="me-auto">
                                 <Nav.Link as={Link} to="/explore">
@@ -35,8 +31,9 @@ function App() {
                                 </Nav.Link>
                             </Nav>
                             <Nav className="ml-auto">
-                                <ConnectButton />
+                                {/* only render if connect wallet */}
                                 <ChainSelector />
+                                <ConnectButton />
                             </Nav>
                         </Container>
                     </Navbar>
