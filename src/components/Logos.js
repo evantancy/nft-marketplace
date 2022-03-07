@@ -104,7 +104,6 @@ export const ArbLogo = () => (
         width="27.435px"
         height="30px"
         viewBox="0 0 27.435 30"
-        enable-background="new 0 0 470.287 514.251"
     >
         <g id="Background" />
         <g id="Logos_and_symbols">
