@@ -16,14 +16,13 @@ import {
     Row,
     Col,
 } from "react-bootstrap";
-import { supportedChains } from "../components/ChainSelector";
+import { supportedChains } from "../utils/Networks";
 import { debounce } from "lodash";
 
 // render a card for a single token
 const RenderCard = (data, index) => {
-    const name = "test";
-    // const name =
-    //     data?.name.length > 12 ? data?.name.substring(0, 10) : data?.name;
+    const name =
+        data?.name?.length > 12 ? data?.name.substring(0, 10) : data?.name;
     const address =
         data?.token_address.substring(0, 6) +
         "...." +
@@ -94,13 +93,16 @@ const Inventory = () => {
         const rows = numItems / cols;
         return { rows, cols };
     }
+    console.log(data?.result);
 
     const dims = calcRowCol(data?.total);
+    // render outside to dynamically adjust
+    const cards = data !== null ? data?.result.map(RenderCard) : "";
 
     return (
         <div className="container">
             <h1>Inventory</h1>
-            {data !== null ? data?.result.map(RenderCard) : ""}
+            <Row className="row-cols-1 row-cols-md-4 g-4">{cards}</Row>
         </div>
     );
 };
