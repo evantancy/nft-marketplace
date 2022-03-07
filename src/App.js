@@ -9,35 +9,43 @@ import { Nav, Navbar, Container } from "react-bootstrap";
 import { ConnectButton } from "web3uikit";
 import ChainSelector from "./components/ChainSelector";
 
+const Header = () => {
+    return (
+        <>
+            <Navbar bg="dark" variant="dark" style={{ marginBottom: "10" }}>
+                <Container>
+                    <Navbar.Brand as={Link} to="/">
+                        NFT Marketplace
+                    </Navbar.Brand>
+                    <Nav
+                        className="me-auto" /* activeKey={location.pathname} */
+                    >
+                        <Nav.Link as={Link} to="/explore">
+                            Explore
+                        </Nav.Link>
+                        <Nav.Link as={Link} to="/inventory">
+                            Inventory
+                        </Nav.Link>
+                        <Nav.Link as={Link} to="/transactions">
+                            Transactions
+                        </Nav.Link>
+                    </Nav>
+                    <Nav className="ml-auto">
+                        {/* only render if connect wallet */}
+                        <ChainSelector />
+                        <ConnectButton />
+                    </Nav>
+                </Container>
+            </Navbar>
+        </>
+    );
+};
+
 function App() {
     return (
         <Router>
             <div>
-                <>
-                    <Navbar bg="dark" variant="dark">
-                        <Container>
-                            <Navbar.Brand as={Link} to="/">
-                                NFT Marketplace
-                            </Navbar.Brand>
-                            <Nav className="me-auto">
-                                <Nav.Link as={Link} to="/explore">
-                                    Explore
-                                </Nav.Link>
-                                <Nav.Link as={Link} to="/inventory">
-                                    Inventory
-                                </Nav.Link>
-                                <Nav.Link as={Link} to="/transactions">
-                                    Transactions
-                                </Nav.Link>
-                            </Nav>
-                            <Nav className="ml-auto">
-                                {/* only render if connect wallet */}
-                                <ChainSelector />
-                                <ConnectButton />
-                            </Nav>
-                        </Container>
-                    </Navbar>
-                </>
+                <Header />
                 {/* configure routes */}
                 <Routes>
                     <Route path="/" element={<Home />} />
