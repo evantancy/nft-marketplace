@@ -1,6 +1,6 @@
 import { AvaxLogo, PolygonLogo, BSCLogo, ETHLogo, ArbLogo } from "./Logos";
 import { useChain, useMoralis } from "react-moralis";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 
 const supportedChains = [
@@ -27,22 +27,13 @@ const supportedChains = [
 - hide button until user connects wallet
 */
 const ChainSelector = () => {
-    const { switchNetwork, chainId, chain } = useChain();
+    const { switchNetwork, chainId } = useChain();
     const { Moralis } = useMoralis();
     const [selectedChain, setSelectedChain] = useState("Select Chain");
     const [selectedLogo, setSelectedLogo] = useState("");
 
-    // change network whenever user selects from dropdown
-    const changeNetwork = (hexChainId) => {
-        try {
-            switchNetwork(hexChainId);
-            chainHandler(chain);
-        } catch (error) {
-            console.log("ERROR", error);
-        }
-    };
-
     // display all available options based on chains
+    // call switchNetwork whenever user selects from dropdown
     const RenderDropdown = () => {
         const menuItems = [];
         supportedChains.forEach((obj, index) => {
@@ -57,7 +48,7 @@ const ChainSelector = () => {
             <DropdownButton
                 id="dropdown-button-chainselector"
                 title={[selectedLogo, " ", selectedChain]}
-                onSelect={changeNetwork}
+                onSelect={switchNetwork}
             >
                 {menuItems}
             </DropdownButton>
@@ -65,22 +56,21 @@ const ChainSelector = () => {
     };
 
     // set dropdown button text to current chain
-    const chainHandler = (currChainId) => {
+    const chainHandler = (_chainId) => {
         const currChainInfo = supportedChains.find(
-            (item) => item.id === currChainId
+            (item) => item.id === _chainId
         );
-        if (currChainInfo === null) {
-            setSelectedChain("Unknown");
-        } else {
-            // console.log(currChainInfo);
+        try {
             setSelectedChain(currChainInfo.label);
             setSelectedLogo(currChainInfo.prefix);
+        } catch (err) {
+            console.log("ERROR:", err);
         }
     };
 
     // case: user changes chain
     Moralis.onChainChanged((chain) => {
-        // console.log("Chain changed");
+        // console.log("Chain changed", chain);
         chainHandler(chain);
     });
     // case: user first connected to website
