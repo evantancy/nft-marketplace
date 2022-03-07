@@ -3,20 +3,86 @@ import { useChain, useMoralis } from "react-moralis";
 import { useState } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 
-const supportedChains = [
-    { id: "0x539", label: "Local", prefix: "🥐" },
-    { id: "0x1", label: "Ethereum", prefix: <ETHLogo /> },
-    { id: "0x3", label: "Ropsten Testnet", prefix: <ETHLogo /> },
-    { id: "0x4", label: "Rinkeby Testnet", prefix: <ETHLogo /> },
-    { id: "0x2a", label: "Kovan Testnet", prefix: <ETHLogo /> },
-    { id: "0x5", label: "Goerli Testnet", prefix: <ETHLogo /> },
-    // { id: "0xa4b1", label: "Arbitrum", prefix: <ArbLogo /> },
-    { id: "0x38", label: "BSC", prefix: <BSCLogo /> },
-    { id: "0x61", label: "BSC Testnet", prefix: <BSCLogo /> },
-    { id: "0x89", label: "Polygon", prefix: <PolygonLogo /> },
-    { id: "0x13881", label: "Mumbai Testnet", prefix: <PolygonLogo /> },
-    { id: "0xa86a", label: "Avalanche", prefix: <AvaxLogo /> },
-    { id: "0xa869", label: "Avalanche Testnet", prefix: <AvaxLogo /> },
+export const supportedChains = [
+    { id: "0x539", label: "Local", prefix: "🥐", symbol: "🥐" },
+    {
+        id: "0x1",
+        label: "Ethereum",
+        prefix: <ETHLogo />,
+        symbol: "ETH",
+        blockExplorerUrl: "https://etherscan.io/",
+    },
+    {
+        id: "0x3",
+        label: "Ropsten Testnet",
+        prefix: <ETHLogo />,
+        symbol: "ETH",
+        blockExplorerUrl: "https://ropsten.etherscan.io/",
+    },
+    {
+        id: "0x4",
+        label: "Rinkeby Testnet",
+        prefix: <ETHLogo />,
+        symbol: "ETH",
+        blockExplorerUrl: "https://rinkeby.etherscan.io/",
+    },
+    {
+        id: "0x2a",
+        label: "Kovan Testnet",
+        prefix: <ETHLogo />,
+        symbol: "ETH",
+        blockExplorerUrl: "https://kovan.etherscan.io/",
+    },
+    {
+        id: "0x5",
+        label: "Goerli Testnet",
+        prefix: <ETHLogo />,
+        symbol: "ETH",
+        blockExplorerUrl: "https://goerli.etherscan.io/",
+    },
+    // { id: "0xa4b1", label: "Arbitrum", prefix: <ArbLogo /> , symbol:},
+    {
+        id: "0x38",
+        label: "BSC",
+        prefix: <BSCLogo />,
+        symbol: "BNB",
+        blockExplorerUrl: "https://bscscan.com/",
+    },
+    {
+        id: "0x61",
+        label: "BSC Testnet",
+        prefix: <BSCLogo />,
+        symbol: "BNB",
+        blockExplorerUrl: "https://testnet.bscscan.com/",
+    },
+    {
+        id: "0x89",
+        label: "Polygon",
+        prefix: <PolygonLogo />,
+        symbol: "MATIC",
+        blockExplorerUrl: "https://polygonscan.com/",
+    },
+    {
+        id: "0x13881",
+        label: "Mumbai Testnet",
+        prefix: <PolygonLogo />,
+        symbol: "MATIC",
+        blockExplorerUrl: "https://mumbai.polygonscan.com/",
+    },
+    {
+        id: "0xa86a",
+        label: "Avalanche",
+        prefix: <AvaxLogo />,
+        symbol: "AVAX",
+        blockExplorerUrl: "https://snowtrace.io/",
+    },
+    {
+        id: "0xa869",
+        label: "Avalanche Testnet",
+        prefix: <AvaxLogo />,
+        symbol: "AVAX",
+        blockExplorerUrl: "https://testnet.snowtrace.io/",
+    },
 ];
 
 /*
