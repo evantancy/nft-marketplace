@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
     useNFTBalances,
     useChain,
     useMoralis,
     useMoralisWeb3Api,
-    useMoralisWeb3ApiCall,
 } from "react-moralis";
 import {} from "react-moralis";
 import {
@@ -13,20 +12,15 @@ import {
     ListGroup,
     ListGroupItem,
     Container,
-    Row,
-    Col,
+    Image,
     CardGroup,
 } from "react-bootstrap";
 import { supportedChains } from "../utils/Networks";
-import { debounce } from "lodash";
 
 const Inventory = () => {
-    // render a card for a single token
-
-    // render a single card
     const RenderCard = (data, symbol, index) => {
         const name =
-            data?.name?.length > 12 ? data?.name?.substring(0, 10) : data?.name;
+            data?.name?.length > 20 ? data?.name?.substring(0, 16) : data?.name;
         const address =
             data?.token_address.substring(0, 6) +
             "...." +
@@ -36,34 +30,91 @@ const Inventory = () => {
         // only show symbol if price specified i.e. listed for sale
         // TODO: fetch price from contract
         const price = 0;
-        const currencySymbol = price ? symbol : "";
+        const currencySymbol = price > 0 ? symbol : "";
+
+        const imgContainerStyle = {
+            paddingTop: 5,
+            paddingLeft: 5,
+            paddingRight: 5,
+            paddingBottom: 0,
+            // large number to push text to bottom
+            flexGrow: 200,
+        };
+
+        const cardStyle = {
+            minWidth: "15rem",
+            maxWidth: "15rem",
+            border: "2px solid #e5e5e5",
+            borderRadius: "8px",
+        };
+        const cardTitleStyle = {
+            paddingTop: 2,
+            paddingBottom: 0,
+            paddingLeft: 0,
+            paddingRight: 0,
+        };
+
+        const cardTextStyle = {
+            paddingTop: 0,
+            paddingBottom: 0,
+            paddingLeft: 5,
+            paddingRight: 5,
+            marginTop: 0,
+            marginBottom: 0,
+            fontSize: "14px",
+        };
+
+        const cardInfoStyle = {
+            fontSize: "12px",
+            marginTop: 0,
+            marginBottom: 0,
+        };
+
+        const cardButtonStyle = {
+            paddingTop: 0,
+            paddingBottom: 5,
+            paddingLeft: 5,
+            paddingRight: 5,
+            marginTop: 0,
+            marginBottom: 0,
+        };
 
         return (
-            <Card
-                className="mb-2 mx-2"
-                key={index}
-                style={{ minWidth: "18rem", maxWidth: "18rem" }}
-            >
-                <Card.Img variant="top" src="" />
-                <Card.Body>
-                    <Card.Title className="float-start">
+            <Card className="mb-2 mx-1" key={index} style={cardStyle}>
+                <Container className="" style={imgContainerStyle}>
+                    <Card.Img
+                        variant="top"
+                        as={Image}
+                        src={data?.image}
+                        // className="img-fluid"
+                        rounded
+                        fluid
+                    />
+                </Container>
+                <Card.Body style={cardTitleStyle}>
+                    <Card.Title className="float-start" style={cardTextStyle}>
                         {name} {tokenId}
                     </Card.Title>
-                    <Card.Title className="float-end">
+                    <Card.Title className="float-end" style={cardTextStyle}>
                         {price} {currencySymbol}
                     </Card.Title>
                 </Card.Body>
-                <ListGroup
-                    className="list-group-flush border-0"
-                    style={{ fontSize: "14px" }}
-                >
-                    <ListGroupItem className="border-0">
-                        <p className="float-start">Contract Address</p>
-                        <p className="float-end">{address}</p>
-                        <p className="float-start">Contract Type</p>
-                        <p className="float-end">{type}</p>
+                <ListGroup className="list-group-flush border-0">
+                    <ListGroupItem className="border-0" style={cardTextStyle}>
+                        <p className="float-start" style={cardInfoStyle}>
+                            Contract Address
+                        </p>
+                        <p className="float-end" style={cardInfoStyle}>
+                            {address}
+                        </p>
+                        <p className="float-start" style={cardInfoStyle}>
+                            Contract Type
+                        </p>
+                        <p className="float-end" style={cardInfoStyle}>
+                            {type}
+                        </p>
                     </ListGroupItem>
-                    <ListGroupItem>
+                    <ListGroupItem style={cardButtonStyle}>
                         <>
                             {/* TODO: create popup & functionality */}
                             <Button variant="dark" size="sm">
@@ -100,12 +151,14 @@ const Inventory = () => {
         setCardCols(cols);
     }
 
-    console.log(data?.result);
+    console.log("Fetched data", data?.result);
 
     // render outside to dynamically adjust
     const cards =
         data !== null
-            ? data?.result.map((item) => RenderCard(item, _symbol))
+            ? data?.result.map((item, index) =>
+                  RenderCard(item, _symbol, index)
+              )
             : "";
 
     return (
