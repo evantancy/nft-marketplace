@@ -44,17 +44,15 @@ const Header = () => {
 function App() {
     return (
         <Router>
-            <div>
-                <Header />
-                {/* configure routes */}
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/explore" element={<Explore />} />
-                    <Route path="/inventory" element={<Inventory />} />
-                    <Route path="/transactions" element={<Transaction />} />
-                    <Route path="*" element={<ErrorPage />} />
-                </Routes>
-            </div>
+            <Header />
+            {/* configure routes */}
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/explore" element={<Explore />} />
+                <Route path="/inventory" element={<Inventory />} />
+                <Route path="/transactions" element={<Transaction />} />
+                <Route path="*" element={<ErrorPage />} />
+            </Routes>
         </Router>
     );
 }
