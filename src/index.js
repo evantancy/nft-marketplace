@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { MoralisProvider } from "react-moralis";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "./bootstrap.min.css";
 require("dotenv").config();
 
 const APP_ID = process.env.REACT_APP_MORALIS_APP_ID;
