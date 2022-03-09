@@ -113,7 +113,7 @@ const Inventory = () => {
         return (
             <Card className="mb-2 mx-1" key={index} style={cardStyle}>
                 <Container className="" style={imgContainerStyle}>
-                    {data?.image.search("mp4") >= 0
+                    {data?.image?.search("mp4") >= 0
                         ? RenderVideo()
                         : RenderImage()}
                 </Container>
@@ -162,21 +162,7 @@ const Inventory = () => {
     const { account } = useMoralisWeb3Api();
     const { getNFTBalances, data, error, isLoading, isFetching } =
         useNFTBalances();
-    const [cardRows, setCardRows] = useState(0);
-    const [cardCols, setCardCols] = useState(0);
     const _symbol = supportedChains.find((item) => item.id === chainId)?.symbol;
-
-    // dynamically get rows and cols
-    function calcRowCol(numItems) {
-        // get window dimensions
-        const { innerWidth: width, innerHeight: height } = window;
-        const cardWidth = 288;
-        const cols = width / cardWidth;
-        const rows = numItems / cols;
-        // return { rows, cols };
-        setCardRows(rows);
-        setCardCols(cols);
-    }
 
     console.log("Fetched data", data?.result);
 
