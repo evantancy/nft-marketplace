@@ -12,25 +12,35 @@ import ChainSelector from "./components/ChainSelector";
 const Header = () => {
     return (
         <>
-            <Navbar bg="dark" variant="dark" style={{ marginBottom: "10" }}>
+            <Navbar
+                collapseOnSelect
+                expand="lg"
+                bg="dark"
+                variant="dark"
+                style={{ marginBottom: "10" }}
+            >
                 <Container>
                     <Navbar.Brand as={Link} to="/">
                         NFT Marketplace
                     </Navbar.Brand>
-                    <Nav
-                        className="me-auto" /* activeKey={location.pathname} */
-                    >
-                        <Nav.Link as={Link} to="/explore">
-                            Explore
-                        </Nav.Link>
-                        <Nav.Link as={Link} to="/inventory">
-                            Inventory
-                        </Nav.Link>
-                        <Nav.Link as={Link} to="/transactions">
-                            Transactions
-                        </Nav.Link>
-                    </Nav>
-                    <Nav className="ml-auto">
+                    <Navbar.Toggle
+                        className="me-auto"
+                        aria-controls="responsive-navbar-nav"
+                    />
+                    <Navbar.Collapse id="responsive-navbar-nav">
+                        <Nav className="me-auto">
+                            <Nav.Link as={Link} to="/explore">
+                                Explore
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/inventory">
+                                Inventory
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/transactions">
+                                Transactions
+                            </Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                    <Nav>
                         {/* only render if connect wallet */}
                         <ChainSelector />
                         <ConnectButton />
