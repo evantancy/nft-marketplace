@@ -2,7 +2,7 @@ import React from "react";
 import { useNFTBalances, useChain, useMoralis } from "react-moralis";
 import { CardGroup } from "react-bootstrap";
 import { supportedChains } from "../utils/Networks";
-import { RenderCard } from "../components/Card";
+import { CustomCard } from "../components/Card";
 
 const Inventory = () => {
     const { isAuthenticated } = useMoralis();
@@ -13,20 +13,17 @@ const Inventory = () => {
     const _symbol = supportedChains.find((item) => item.id === chainId)?.symbol;
 
     console.log("Fetched data\n", data?.result);
-    // render all cards
-    const cards =
-        data !== null && isAuthenticated
-            ? data?.result.map((item, index) =>
-                  RenderCard(item, _symbol, index)
-              )
-            : "";
 
     return (
         <div style={{ backgroundColor: "#3C4046", minHeight: "100vh" }}>
             <div className="container">
                 <h1>Your NFTs</h1>
                 <CardGroup style={{ justifyContent: "center" }}>
-                    {cards}
+                    {data !== null && isAuthenticated
+                        ? data?.result.map((item) => (
+                              <CustomCard data={item} symbol={_symbol} />
+                          ))
+                        : ""}
                 </CardGroup>
             </div>
         </div>

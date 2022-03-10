@@ -7,23 +7,24 @@ import {
     Image,
 } from "react-bootstrap";
 
-export const RenderCard = (data, symbol, index) => {
+export const CustomCard = (props) => {
     // const name =
-    //     data?.name?.length > 20 ? data?.name?.substring(0, 16) : data?.name;
-    const name = data?.name;
+    //     props.data?.name?.length > 20 ? props.data?.name?.substring(0, 16) : props.data?.name;
+    const name = props.data?.name;
     const address =
-        data?.token_address.substring(0, 6) +
+        props.data?.token_address.substring(0, 6) +
         "...." +
-        data?.token_address.slice(-4);
+        props.data?.token_address.slice(-4);
     const tokenId =
-        data?.token_id?.length > 10
-            ? "#" + data?.token_id?.substring(0, 10)
-            : "#" + data?.token_id;
-    const type = data?.contract_type;
+        props.data?.token_id?.length > 10
+            ? "#" + props.data?.token_id?.substring(0, 10)
+            : "#" + props.data?.token_id;
+    const type = props.data?.contract_type;
     // only show symbol if price specified i.e. listed for sale
     // TODO: fetch price from contract
     const price = "";
-    const currencySymbol = price > 0 ? symbol : "";
+
+    const currencySymbol = price > 0 ? props.symbol : "";
 
     const imgContainerStyle = {
         paddingTop: 5,
@@ -74,7 +75,7 @@ export const RenderCard = (data, symbol, index) => {
 
     const RenderVideo = () => (
         <video
-            src={data?.image}
+            src={props.data?.image}
             style={{ maxWidth: "14rem" }}
             autoPlay
             loop
@@ -86,7 +87,7 @@ export const RenderCard = (data, symbol, index) => {
         <Card.Img
             variant="top"
             as={Image}
-            src={data?.image}
+            src={props.data?.image}
             style={{ maxWidth: "14rem" }}
             rounded
             fluid
@@ -98,9 +99,9 @@ export const RenderCard = (data, symbol, index) => {
 
     // TODO: load IPFS images quickly
     return (
-        <Card className="mb-2 mx-1" key={index} style={cardStyle}>
+        <Card className="mb-2 mx-1" key={name + tokenId} style={cardStyle}>
             <Container className="" style={imgContainerStyle}>
-                {data?.image?.search("mp4") >= 0
+                {props.data?.image?.search("mp4") >= 0
                     ? RenderVideo()
                     : RenderImage()}
             </Container>
