@@ -5,6 +5,7 @@ import {
     useMoralisWeb3Api,
     useMoralisWeb3ApiCall,
 } from "react-moralis";
+import { debounce } from "lodash";
 
 export default function useNFTTokenIds() {
     const { chainId } = useChain();
@@ -24,7 +25,7 @@ export default function useNFTTokenIds() {
     const options = {
         chain: chainId,
         address: "0x632970f972e20c49752c0de14ce38a81f4b9e05c",
-        limit: 10,
+        limit: 1,
     };
 
     // const {
@@ -35,24 +36,27 @@ export default function useNFTTokenIds() {
     // } = useMoralisWeb3ApiCall(Moralis.Web3API.token.getAllTokenIds, {
     //     chain: chainId,
     //     address: "0x632970f972e20c49752c0de14ce38a81f4b9e05c",
-    //     limit: 10,
+    //     limit: 1,
     // });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = await Moralis.Web3API.token.getAllTokenIds(options);
-            if (data?.result) {
-                const collectionData = data.result;
-                if (!data.result) {
-                    setFetchSuccess(false);
-                    return;
-                }
-                setTotalNFTs(data.total);
-                setNFTTokenIds(collectionData);
-                setFetchSuccess(true);
+    const fetchData = async () => {
+        const data = await Moralis.Web3API.token.getAllTokenIds(options);
+        if (data?.result) {
+            const collectionData = data.result;
+            if (!data.result) {
+                setFetchSuccess(false);
+                return;
             }
-        };
-        fetchData();
+            setTotalNFTs(data.total);
+            setNFTTokenIds(collectionData);
+            setFetchSuccess(true);
+        }
+    };
+
+    const delayedFetchData = debounce(fetchData, 1000);
+
+    useEffect(() => {
+        delayedFetchData();
     }, []);
 
     return {
@@ -60,21 +64,4 @@ export default function useNFTTokenIds() {
         totalNFTs,
         fetchSuccess,
     };
-
-    // #############################################
-    // ########################################
-    // #########################################
-    // useEffect(async () => {
-    //     const data = await Moralis.Web3API.token.getAllTokenIds(options);
-    //     setCollectionData(data.result);
-    //     if (!data?.result) {
-    //         setFetchSuccess(false);
-    //         return;
-    //     }
-    //     setFetchSuccess(true);
-
-    //     for (let token of data.result) {
-    //         if (!token?.image) return;
-    //     }
-    // }, []);
 }
