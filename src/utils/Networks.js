@@ -80,3 +80,56 @@ export const supportedChains = [
         blockExplorerUrl: "https://testnet.snowtrace.io/",
     },
 ];
+
+export const collectionAddresses = [
+    {
+        id: "0x1",
+        label: "Ethereum",
+    },
+    {
+        id: "0x3",
+        label: "Ropsten Testnet",
+    },
+    {
+        id: "0x4",
+        label: "Rinkeby Testnet",
+        addresses: [
+            "0x5e189ff63e6f8d2488bd46b2b04bac85176f0c73",
+            "0x0e9076fbeb063ead63b9eeb84b41694a8bbf8ddb",
+            "0x8a5491b94df6b8bb156e629619a71c30174cdd43",
+            "0x632970f972e20c49752c0de14ce38a81f4b9e05c",
+        ],
+    },
+    {
+        id: "0x2a",
+        label: "Kovan Testnet",
+    },
+    {
+        id: "0x5",
+        label: "Goerli Testnet",
+    },
+    {
+        id: "0x38",
+        label: "BSC",
+    },
+    {
+        id: "0x61",
+        label: "BSC Testnet",
+    },
+    {
+        id: "0x89",
+        label: "Polygon",
+    },
+    {
+        id: "0x13881",
+        label: "Mumbai Testnet",
+    },
+    {
+        id: "0xa86a",
+        label: "Avalanche",
+    },
+    {
+        id: "0xa869",
+        label: "Avalanche Testnet",
+    },
+];
