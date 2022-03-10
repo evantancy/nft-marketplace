@@ -28,19 +28,16 @@ export default function useNFTTokenIds() {
         limit: 1,
     };
 
-    // const {
-    //     fetch: getNFTTokenIds,
-    //     data,
-    //     error,
-    //     isLoading,
-    // } = useMoralisWeb3ApiCall(Moralis.Web3API.token.getAllTokenIds, {
-    //     chain: chainId,
-    //     address: "0x632970f972e20c49752c0de14ce38a81f4b9e05c",
-    //     limit: 1,
-    // });
+    const {
+        fetch: fetchCollectionData,
+        data,
+        error,
+        isLoading,
+    } = useMoralisWeb3ApiCall(Moralis.Web3API.token.getAllTokenIds, options);
 
     const fetchData = async () => {
-        const data = await Moralis.Web3API.token.getAllTokenIds(options);
+        // const data = await Moralis.Web3API.token.getAllTokenIds(options);
+        fetchCollectionData();
         if (data?.result) {
             const collectionData = data.result;
             if (!data.result) {
@@ -55,9 +52,12 @@ export default function useNFTTokenIds() {
 
     const delayedFetchData = debounce(fetchData, 1000);
 
+    // TODO: how to cache? currently infinite looping
     useEffect(() => {
         delayedFetchData();
-    }, []);
+        console.log(data);
+        console.log(isLoading);
+    }, [data]);
 
     return {
         NFTTokenIds,
