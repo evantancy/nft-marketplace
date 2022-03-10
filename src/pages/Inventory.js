@@ -20,8 +20,12 @@ const Inventory = () => {
                 <h1>Your NFTs</h1>
                 <CardGroup style={{ justifyContent: "center" }}>
                     {data !== null && isAuthenticated
-                        ? data?.result.map((item) => (
-                              <CustomCard data={item} symbol={_symbol} />
+                        ? data?.result.map((item, index) => (
+                              <CustomCard
+                                  data={item}
+                                  symbol={_symbol}
+                                  key={index}
+                              />
                           ))
                         : ""}
                 </CardGroup>

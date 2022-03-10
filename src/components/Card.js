@@ -99,7 +99,7 @@ export const CustomCard = (props) => {
 
     // TODO: load IPFS images quickly
     return (
-        <Card className="mb-2 mx-1" key={name + tokenId} style={cardStyle}>
+        <Card className="mb-2 mx-1" style={cardStyle}>
             <Container className="" style={imgContainerStyle}>
                 {props.data?.image?.search("mp4") >= 0
                     ? RenderVideo()
