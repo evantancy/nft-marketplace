@@ -2,58 +2,65 @@ import React, { useState, useEffect } from "react";
 import { useChain, useMoralis, useMoralisWeb3Api } from "react-moralis";
 import { CardGroup } from "react-bootstrap";
 import { CustomCard } from "../components/Card";
-import CollectionAddresses from "../utils/Networks";
+import { supportedCollections } from "../utils/Networks";
 import { debounce } from "lodash";
 import useNFTTokenIds from "../hooks/useNFTTokenIds";
 
 const Explore = () => {
-    const { NFTTokenIds, totalNFTs, fetchSuccess } = useNFTTokenIds();
     const { chainId } = useChain();
-    const { Moralis, isAuthenticated } = useMoralis();
-    const { token } = useMoralisWeb3Api();
+    const { Moralis } = useMoralis();
+    const [contractAddress, setContractAddress] = useState(null);
+    const collections = supportedCollections[chainId];
+    console.log(collections);
+    // console.log(collection);
+    // const options = {
+    //     chain: chainId,
+    //     address: "",
+    //     limit: 1,
+    // };
 
-    const [collectionData, setCollectionData] = useState([]);
+    // // required to fetch data
+    // const appId = process.env.REACT_APP_MORALIS_APP_ID;
+    // const serverUrl = process.env.REACT_APP_MORALIS_URL;
+    // Moralis.start({ serverUrl, appId });
 
-    // required to fetch data
-    const appId = process.env.REACT_APP_MORALIS_APP_ID;
-    const serverUrl = process.env.REACT_APP_MORALIS_URL;
-    Moralis.start({ serverUrl, appId });
+    // const { NFTTokenIds, NFTCount, fetchSuccess, isLoading } =
+    //     useNFTTokenIds(options);
 
-    const options = {
-        chain: chainId,
-        address: "0x632970f972e20c49752c0de14ce38a81f4b9e05c",
-        limit: 2,
-    };
-    console.log(NFTTokenIds);
+    // const explorePageCards = [];
 
-    // ######################################################################
+    // if (fetchSuccess && !isLoading) {
+    //     options.address = addressList[addressList.length - 1];
+    //     explorePageCards.push(
+    //         <CustomCard data={NFTTokenIds[0]} key={addressList.length - 1} />
+    //     );
+    //     addressList.pop();
+    // }
+    // console.log(addressList);
+    // console.log(NFTTokenIds);
+    // console.log(explorePageCards);
 
-    // useEffect(async () => {
-    //     const data = await Moralis.Web3API.token.getAllTokenIds(options);
-    //     setCollectionData(data.result);
-    //     if (!data?.result) {
-    //         setFetchSuccess(false);
-    //         return;
-    //     }
-    //     setFetchSuccess(true);
-
-    //     for (let token of data.result) {
-    //         if (!token?.image) return;
-    //     }
-    // }, []);
-
-    // ######################################################################
+    // const RenderCollections = () =>
+    //     collection.map((obj, index) => <CustomCard data={obj} key={index} />);
+    const RenderCollections = () => (
+        <CardGroup style={{ justifyContent: "center" }}>
+            {collections?.map((obj, index) => (
+                <CustomCard data={obj} key={index} name />
+            ))}
+        </CardGroup>
+    );
 
     return (
         <div style={{ backgroundColor: "#3C4046", minHeight: "100vh" }}>
             <div className="container">
                 <h1>Explore Collections</h1>
                 <div>
-                    {/* {collectionData === null
-                        ? ""
-                        : collectionData.map((item, index) => (
-                              <CustomCard data={item} key={index} />
-                          ))} */}
+                    {/* {fetchSuccess && !isLoading
+                        ? explorePageCards.map((item, index) => (
+                              <CustomCard data={item} key={index} list />
+                          ))
+                        : ""} */}
+                    {contractAddress === null && RenderCollections()}
                 </div>
             </div>
         </div>
