@@ -19,22 +19,17 @@ const ChainSelector = () => {
     // display all available options based on chains
     // call switchNetwork whenever user selects from dropdown
     const RenderDropdown = () => {
-        const menuItems = [];
-        supportedChains.forEach((obj, index) => {
-            menuItems.push(
-                <Dropdown.Item eventKey={obj.id} key={index}>
-                    {obj.prefix} {obj.label}
-                </Dropdown.Item>
-            );
-        });
-
         return (
             <DropdownButton
                 id="dropdown-button-chainselector"
                 title={[selectedLogo, " ", selectedChain]}
                 onSelect={switchNetwork}
             >
-                {menuItems}
+                {supportedChains.map((obj, index) => (
+                    <Dropdown.Item eventKey={obj.id} key={index}>
+                        {obj.prefix} {obj.label}
+                    </Dropdown.Item>
+                ))}
             </DropdownButton>
         );
     };
