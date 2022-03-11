@@ -49,5 +49,6 @@ export default function useNFTTokenIds(options) {
         NFTTokenIds,
         NFTCount,
         fetchSuccess,
+        isLoading,
     };
 }
