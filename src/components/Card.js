@@ -12,9 +12,9 @@ export const CustomCard = (props) => {
     //     props.data?.name?.length > 20 ? props.data?.name?.substring(0, 16) : props.data?.name;
     const name = props.data?.name;
     const address =
-        props.data?.token_address.substring(0, 6) +
+        props.data?.token_address?.substring(0, 6) +
         "...." +
-        props.data?.token_address.slice(-4);
+        props.data?.token_address?.slice(-4);
     const tokenId =
         props.data?.token_id?.length > 10
             ? "#" + props.data?.token_id?.substring(0, 10)
@@ -107,37 +107,43 @@ export const CustomCard = (props) => {
             </Container>
             <Card.Body style={cardTitleStyle}>
                 <Card.Title className="float-start" style={cardTextStyle}>
-                    <p style={cardInfoStyle}>{name}</p>
-                    <p style={cardInfoStyle}>{tokenId}</p>
+                    {props.name && <p style={cardInfoStyle}>{name}</p>}
+                    {props.tokenId && <p style={cardInfoStyle}>{tokenId}</p>}
                 </Card.Title>
                 <Card.Title className="float-end" style={cardTextStyle}>
                     {price} {currencySymbol}
                 </Card.Title>
             </Card.Body>
             <ListGroup className="list-group-flush border-0">
-                <ListGroupItem className="border-0" style={cardTextStyle}>
-                    <p className="float-start" style={cardInfoStyle}>
-                        Contract Address
-                    </p>
-                    <p className="float-end" style={cardInfoStyle}>
-                        {address}
-                    </p>
-                    <p className="float-start" style={cardInfoStyle}>
-                        Contract Type
-                    </p>
-                    <p className="float-end" style={cardInfoStyle}>
-                        {type}
-                    </p>
-                </ListGroupItem>
+                {props.cardInfo && (
+                    <ListGroupItem className="border-0" style={cardTextStyle}>
+                        <p className="float-start" style={cardInfoStyle}>
+                            Contract Address
+                        </p>
+                        <p className="float-end" style={cardInfoStyle}>
+                            {address}
+                        </p>
+                        <p className="float-start" style={cardInfoStyle}>
+                            Contract Type
+                        </p>
+                        <p className="float-end" style={cardInfoStyle}>
+                            {type}
+                        </p>
+                    </ListGroupItem>
+                )}
                 <ListGroupItem style={cardButtonStyle}>
                     <>
                         {/* TODO: create popup & functionality */}
-                        <Button variant="dark" size="sm">
-                            List
-                        </Button>{" "}
-                        <Button variant="dark" size="sm">
-                            Transfer
-                        </Button>
+                        {props.listButton && (
+                            <Button variant="dark" size="sm">
+                                List
+                            </Button>
+                        )}{" "}
+                        {props.transferButton && (
+                            <Button variant="dark" size="sm">
+                                Transfer
+                            </Button>
+                        )}
                     </>
                 </ListGroupItem>
             </ListGroup>
