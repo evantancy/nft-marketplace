@@ -88,7 +88,7 @@ export const CustomCard = (props) => {
             variant="top"
             as={Image}
             src={props.data?.image}
-            style={{ maxWidth: "14rem" }}
+            style={{ width: "14rem", height: "14rem" }}
             rounded
             fluid
         />
@@ -100,53 +100,60 @@ export const CustomCard = (props) => {
     // TODO: load IPFS images quickly
     return (
         <Card className="mb-2 mx-1" style={cardStyle}>
-            <Container className="" style={imgContainerStyle}>
-                {props.data?.image?.search("mp4") >= 0
-                    ? RenderVideo()
-                    : RenderImage()}
-            </Container>
-            <Card.Body style={cardTitleStyle}>
-                <Card.Title className="float-start" style={cardTextStyle}>
-                    {props.name && <p style={cardInfoStyle}>{name}</p>}
-                    {props.tokenId && <p style={cardInfoStyle}>{tokenId}</p>}
-                </Card.Title>
-                <Card.Title className="float-end" style={cardTextStyle}>
-                    {price} {currencySymbol}
-                </Card.Title>
-            </Card.Body>
-            <ListGroup className="list-group-flush border-0">
-                {props.cardInfo && (
-                    <ListGroupItem className="border-0" style={cardTextStyle}>
-                        <p className="float-start" style={cardInfoStyle}>
-                            Contract Address
-                        </p>
-                        <p className="float-end" style={cardInfoStyle}>
-                            {address}
-                        </p>
-                        <p className="float-start" style={cardInfoStyle}>
-                            Contract Type
-                        </p>
-                        <p className="float-end" style={cardInfoStyle}>
-                            {type}
-                        </p>
-                    </ListGroupItem>
-                )}
-                <ListGroupItem style={cardButtonStyle}>
-                    <>
-                        {/* TODO: create popup & functionality */}
-                        {props.listButton && (
-                            <Button variant="dark" size="sm">
-                                List
-                            </Button>
-                        )}{" "}
-                        {props.transferButton && (
-                            <Button variant="dark" size="sm">
-                                Transfer
-                            </Button>
+            <a href={props.link} target="_blank" rel="noopener noreferrer">
+                <Container className="" style={imgContainerStyle}>
+                    {props.data?.image?.search("mp4") >= 0
+                        ? RenderVideo()
+                        : RenderImage()}
+                </Container>
+                <Card.Body style={cardTitleStyle}>
+                    <Card.Title className="float-start" style={cardTextStyle}>
+                        {props.name && <p style={cardInfoStyle}>{name}</p>}
+                        {props.tokenId && (
+                            <p style={cardInfoStyle}>{tokenId}</p>
                         )}
-                    </>
-                </ListGroupItem>
-            </ListGroup>
+                    </Card.Title>
+                    <Card.Title className="float-end" style={cardTextStyle}>
+                        {price} {currencySymbol}
+                    </Card.Title>
+                </Card.Body>
+                <ListGroup className="list-group-flush border-0">
+                    {props.cardInfo && (
+                        <ListGroupItem
+                            className="border-0"
+                            style={cardTextStyle}
+                        >
+                            <p className="float-start" style={cardInfoStyle}>
+                                Contract Address
+                            </p>
+                            <p className="float-end" style={cardInfoStyle}>
+                                {address}
+                            </p>
+                            <p className="float-start" style={cardInfoStyle}>
+                                Contract Type
+                            </p>
+                            <p className="float-end" style={cardInfoStyle}>
+                                {type}
+                            </p>
+                        </ListGroupItem>
+                    )}
+                    <ListGroupItem style={cardButtonStyle}>
+                        <>
+                            {/* TODO: create popup & functionality */}
+                            {props.listButton && (
+                                <Button variant="dark" size="sm">
+                                    List
+                                </Button>
+                            )}{" "}
+                            {props.transferButton && (
+                                <Button variant="dark" size="sm">
+                                    Transfer
+                                </Button>
+                            )}
+                        </>
+                    </ListGroupItem>
+                </ListGroup>
+            </a>
         </Card>
     );
 };
