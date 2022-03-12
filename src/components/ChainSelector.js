@@ -1,7 +1,7 @@
 import { useChain, useMoralis } from "react-moralis";
 import { useState } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
-import { supportedChains } from "../utils/Networks";
+import { chainInfo } from "../utils/Networks";
 
 /*
 - show current chain when...
@@ -25,7 +25,7 @@ const ChainSelector = () => {
                 title={[selectedLogo, " ", selectedChain]}
                 onSelect={switchNetwork}
             >
-                {supportedChains.map((obj, index) => (
+                {chainInfo.map((obj, index) => (
                     <Dropdown.Item eventKey={obj.id} key={index}>
                         {obj.prefix} {obj.label}
                     </Dropdown.Item>
@@ -36,9 +36,7 @@ const ChainSelector = () => {
 
     // set dropdown button text to current chain
     const chainHandler = (_chainId) => {
-        const currChainInfo = supportedChains.find(
-            (item) => item.id === _chainId
-        );
+        const currChainInfo = chainInfo.find((item) => item.id === _chainId);
         try {
             setSelectedChain(currChainInfo.label);
             setSelectedLogo(currChainInfo.prefix);

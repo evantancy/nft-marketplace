@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useChain, useMoralis, useMoralisWeb3Api } from "react-moralis";
 import { CardGroup } from "react-bootstrap";
 import { CustomCard } from "../components/Card";
-import { supportedCollections } from "../utils/Networks";
+import { getCollectionByChain } from "../utils/Networks";
 import { debounce } from "lodash";
 import useNFTTokenIds from "../hooks/useNFTTokenIds";
 
@@ -10,7 +10,8 @@ const Explore = () => {
     const { chainId } = useChain();
     const { Moralis } = useMoralis();
     const [contractAddress, setContractAddress] = useState(null);
-    const collections = supportedCollections[chainId];
+    const collections = getCollectionByChain(chainId);
+
     console.log(collections);
     // console.log(collection);
     // const options = {
