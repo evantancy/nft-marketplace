@@ -5,6 +5,7 @@ import { CustomCard } from "../components/Card";
 import { getCollectionByChain } from "../utils/Networks";
 import { debounce } from "lodash";
 import useNFTTokenIds from "../hooks/useNFTTokenIds";
+import CollectionSelector from "../components/CollectionSelector";
 
 const Explore = () => {
     const { chainId } = useChain();
@@ -55,6 +56,9 @@ const Explore = () => {
         <div style={{ backgroundColor: "#3C4046", minHeight: "100vh" }}>
             <div className="container">
                 <h1>Explore Collections</h1>
+                <div>
+                    <CollectionSelector />
+                </div>
                 <div>
                     {/* {fetchSuccess && !isLoading
                         ? explorePageCards.map((item, index) => (
