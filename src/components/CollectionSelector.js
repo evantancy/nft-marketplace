@@ -1,31 +1,43 @@
 import React, { useState } from "react";
-import { useNFTBalances, useChain, useMoralis } from "react-moralis";
-import { CardGroup } from "react-bootstrap";
+import { useChain, useMoralis } from "react-moralis";
 import { getCollectionByChain } from "../utils/Networks";
-import { CustomCard } from "../components/Card";
-import { DropdownButton, Dropdown } from "react-bootstrap";
 import Select from "react-select";
 
-const CollectionSelector = () => {
+const CollectionSelector = ({ setCollection }) => {
     const { chainId } = useChain();
-    const collections = getCollectionByChain(chainId);
-    const [selectedOption, setSelectedOption] = useState(null);
-    const options = collections?.map((item) => {
-        return {
+    const { Moralis } = useMoralis();
+    const [value, setValue] = useState(null);
+
+    const createOptions = (_chain) => {
+        const collections = getCollectionByChain(_chain);
+        const options = collections?.map((item) => ({
             value: item.address,
             label: item.name,
-        };
+        }));
+
+        return options;
+    };
+    let options = createOptions(chainId);
+
+    // grab new collection and reset selector
+    Moralis.onChainChanged((chain) => {
+        options = createOptions(chain);
+        setValue(null);
     });
 
-    console.log(options);
+    const onChangeHandler = (_option) => {
+        setCollection(_option);
+        setValue(_option);
+    };
+
     return (
         <Select
-            className="w-25 mb-2"
+            className="w-25 mb-4"
             placeholder={"🔎 Search Collections"}
-            // defaultValue={selectedOption}
-            // onChange={setSelectedOption}
+            value={value}
+            onChange={onChangeHandler}
             options={options}
-            width={300}
+            isSearchable
         />
     );
 };
