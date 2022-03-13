@@ -1,54 +1,51 @@
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import {
     useMoralis,
     useMoralisWeb3Api,
     useMoralisWeb3ApiCall,
 } from "react-moralis";
-import { debounce } from "lodash";
 
-export default function useNFTTokenIds(options) {
-    const { Moralis } = useMoralis();
+const useNFTTokenIds = (_address, limit = 3) => {
+    const { chainId } = useMoralis();
     const { token } = useMoralisWeb3Api();
 
-    const [fetchSuccess, setFetchSuccess] = useState(false);
-    const [NFTTokenIds, setNFTTokenIds] = useState([]);
-    const [NFTCount, setNFTCount] = useState();
-
-    // required to fetch data
-    const appId = process.env.REACT_APP_MORALIS_APP_ID;
-    const serverUrl = process.env.REACT_APP_MORALIS_URL;
-    Moralis.start({ serverUrl, appId });
+    const options = {
+        chain: chainId,
+        address: _address,
+        limit: limit,
+    };
 
     const {
-        fetch: fetchCollectionData,
+        fetch: getNFTTokenIds,
         data,
         error,
         isLoading,
-    } = useMoralisWeb3ApiCall(token.getAllTokenIds, options);
+        isFetching,
+    } = useMoralisWeb3ApiCall(token.getAllTokenIds, options, {
+        autoFetch: !!token && _address !== "explore" && _address !== null,
+    });
 
-    const fetchData = async () => {
-        fetchCollectionData();
-        if (!data?.result) {
-            setFetchSuccess(false);
-            return;
+    const NFTTokenIds = useMemo(() => {
+        if (!data?.result || !data?.result.length) {
+            return data;
         }
-        setNFTCount(data.total);
-        setNFTTokenIds(data.result);
-        setFetchSuccess(true);
-    };
+        const formattedResult = data.result.map((nft) => {
+            try {
+                if (nft.metadata) {
+                    const metadata = JSON.parse(nft.metadata);
+                    const image = metadata?.image;
+                    return { ...nft, image, metadata };
+                }
+            } catch (error) {
+                return nft;
+            }
+            return nft;
+        });
 
-    const debouncedFetchData = debounce(fetchData, 2000);
+        return { ...data, result: formattedResult };
+    }, [data]);
 
-    // TODO: how to cache? currently infinite looping
-    useEffect(() => {
-        debouncedFetchData();
-        // console.log(data);
-    }, [isLoading]);
+    return { getNFTTokenIds, data: NFTTokenIds, error, isLoading, isFetching };
+};
 
-    return {
-        NFTTokenIds,
-        NFTCount,
-        fetchSuccess,
-        isLoading,
-    };
-}
+export default useNFTTokenIds;
