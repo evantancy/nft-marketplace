@@ -7,66 +7,52 @@ import { debounce } from "lodash";
 import useNFTTokenIds from "../hooks/useNFTTokenIds";
 import CollectionSelector from "../components/CollectionSelector";
 
+/*
+allow users to request collection to be listed
+-> Google form, collection name, contract address, banner image
+render collection showcase when `collection === null`
+render individual collection when set
+*/
 const Explore = () => {
     const { chainId } = useChain();
     const { Moralis } = useMoralis();
-    const [contractAddress, setContractAddress] = useState(null);
+    const [collection, setCollection] = useState(null);
     const collections = getCollectionByChain(chainId);
 
-    console.log(collections);
-    // console.log(collection);
-    // const options = {
-    //     chain: chainId,
-    //     address: "",
-    //     limit: 1,
-    // };
+    // required to fetch data
+    const appId = process.env.REACT_APP_MORALIS_APP_ID;
+    const serverUrl = process.env.REACT_APP_MORALIS_URL;
+    Moralis.start({ serverUrl, appId });
 
-    // // required to fetch data
-    // const appId = process.env.REACT_APP_MORALIS_APP_ID;
-    // const serverUrl = process.env.REACT_APP_MORALIS_URL;
-    // Moralis.start({ serverUrl, appId });
+    let address = null;
+    if (collection?.value !== null) {
+        address = collection?.value;
+    }
 
-    // const { NFTTokenIds, NFTCount, fetchSuccess, isLoading } =
-    //     useNFTTokenIds(options);
+    const { data: NFTTokenIds, error: NFTsFetchError } =
+        useNFTTokenIds(address);
 
-    // const explorePageCards = [];
+    const RenderCollections = () =>
+        collections?.map((obj, index) => (
+            <CustomCard data={obj} key={index} name />
+        ));
 
-    // if (fetchSuccess && !isLoading) {
-    //     options.address = addressList[addressList.length - 1];
-    //     explorePageCards.push(
-    //         <CustomCard data={NFTTokenIds[0]} key={addressList.length - 1} />
-    //     );
-    //     addressList.pop();
-    // }
-    // console.log(addressList);
-    // console.log(NFTTokenIds);
-    // console.log(explorePageCards);
+    const RenderSingleCollection = () =>
+        NFTTokenIds?.result?.map((item, index) => (
+            <CustomCard data={item} key={index} name tokenId />
+        ));
 
-    // const RenderCollections = () =>
-    //     collection.map((obj, index) => <CustomCard data={obj} key={index} />);
-    const RenderCollections = () => (
-        <CardGroup style={{ justifyContent: "center" }}>
-            {collections?.map((obj, index) => (
-                <CustomCard data={obj} key={index} name />
-            ))}
-        </CardGroup>
-    );
+    console.log(NFTTokenIds);
+    console.log("Status", NFTsFetchError);
 
     return (
         <div style={{ backgroundColor: "#3C4046", minHeight: "100vh" }}>
-            <div className="container">
-                <h1>Explore Collections</h1>
-                <div>
-                    <CollectionSelector />
-                </div>
-                <div>
-                    {/* {fetchSuccess && !isLoading
-                        ? explorePageCards.map((item, index) => (
-                              <CustomCard data={item} key={index} list />
-                          ))
-                        : ""} */}
-                    {contractAddress === null && RenderCollections()}
-                </div>
+            <div className="container pt-lg-2">
+                <CollectionSelector setCollection={setCollection} />
+                <CardGroup style={{ justifyContent: "center" }}>
+                    {collection === null && RenderCollections()}
+                    {collection && RenderSingleCollection()}
+                </CardGroup>
             </div>
         </div>
     );
