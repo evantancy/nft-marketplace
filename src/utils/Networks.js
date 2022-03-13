@@ -23,9 +23,9 @@ export const chainInfo = [
         blockExplorerUrl: "https://rinkeby.etherscan.io/",
         collections: [
             {
-                name: "Crypto Swords V3",
-                address: "0x5e189ff63e6f8d2488bd46b2b04bac85176f0c73",
-                image: "https://lh3.googleusercontent.com/gQmg1jSIaM3WMfojc5uXBripTlAaiJ1MbhE3d6k2iH8x1cIJlXE93AjR0Ns9l7JKOILpajsq_XP53DO2GbUD9LjatMd4TuMPIXgH=s0",
+                name: "Oyori",
+                address: "0x3601ec81a1b59451a62e47154dcb7b78c552650b",
+                image: "https://lh3.googleusercontent.com/Hg0A2O3P7qDW1aeykxdU0bPD88a_j2RHmcJVGtKE1cEUG4ObR_7ClLuzvy9AcrpLhaNgz38TF1BXzTArB0ckjeJTDbP_7jzv1UKe=s130",
             },
             {
                 name: "Aloha Friends Pineapple",
@@ -33,9 +33,9 @@ export const chainInfo = [
                 image: "https://lh3.googleusercontent.com/PqgRcyH2lCN7SNj6mU_sbTQa36xvBAsb7_TQm12F7B9NEjQzUXlkV5lY-fUG33tTs7GZlrB1CzReY3oRjCYF8iIFWBNw2EH2DZLjDX0=s0",
             },
             {
-                name: "CryptoKittiesRinkeby",
-                address: "0x16baf0de678e52367adc69fd067e5edd1d33e3bf",
-                image: "https://rinkeby-storage.opensea.io/0x16baf0de678e52367adc69fd067e5edd1d33e3bf/1498-1565390423.png",
+                name: "CryptoApesPunks",
+                address: "0xa436e461ebedcd24593f8bdf60b720af5271a6f2",
+                image: "https://lh3.googleusercontent.com/VLASSuHealjNLh7CNf4Q0TPHYNmKZpsyDM58EyrihfJ87rxeI3xDUO_-9XWJ8BaF6vCzVKkv2BfOK50w2LEyOcNPQmxurknYKPX4cPk=s0",
             },
             {
                 name: "CyberBrokers V3",
