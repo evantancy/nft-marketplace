@@ -6,6 +6,7 @@ import {
     Container,
     Image,
 } from "react-bootstrap";
+import { resolveLink } from "../utils/IpfsUtils";
 
 export const CustomCard = (props) => {
     // const name =
@@ -83,19 +84,30 @@ export const CustomCard = (props) => {
         />
     );
 
-    const RenderImage = () => (
-        <Card.Img
-            variant="top"
-            as={Image}
-            src={props.data?.image}
-            style={{ width: "14rem", height: "14rem" }}
-            rounded
-            fluid
-        />
-    );
+    const RenderImage = () => {
+        let image;
 
-    // const RenderIpfsImage = async () =>
-    //     loadImgURL("QmUyAmor5hEMF5dtMksk7EE3ta2QgBTKH3xSLtoTDHwhGZ");
+        if (props.data?.image) {
+            image = resolveLink(props.data?.image);
+        } else if (props.data?.token_uri) {
+            fetch(props.data?.token_uri)
+                .then((response) => response.json())
+                .then((data) => {
+                    image = resolveLink(data.image);
+                });
+        }
+
+        return (
+            <Card.Img
+                variant="top"
+                as={Image}
+                src={image}
+                style={{ width: "14rem", height: "14rem" }}
+                rounded
+                fluid
+            />
+        );
+    };
 
     // TODO: load IPFS images quickly
     return (
