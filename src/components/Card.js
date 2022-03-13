@@ -117,6 +117,7 @@ export const CustomCard = (props) => {
                         {price} {currencySymbol}
                     </Card.Title>
                 </Card.Body>
+                <div style={{ clear: "both" }}></div>
                 <ListGroup className="list-group-flush border-0">
                     {props.cardInfo && (
                         <ListGroupItem
@@ -137,6 +138,7 @@ export const CustomCard = (props) => {
                             </p>
                         </ListGroupItem>
                     )}
+                    <div style={{ clear: "both" }}></div>
                     <ListGroupItem style={cardButtonStyle}>
                         <>
                             {/* TODO: create popup & functionality */}

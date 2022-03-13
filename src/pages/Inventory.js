@@ -9,15 +9,13 @@ const Inventory = () => {
     const { chainId } = useChain();
     const { data, error, isLoading, isFetching } = useNFTBalances();
 
-    // const { getNFTBalances, error, isLoading, isFetching } = useNFTBalances();
     const _symbol = chainInfo.find((item) => item.id === chainId)?.symbol;
 
-    console.log("Fetched data\n", !isLoading && !isFetching);
+    console.log("Fetched data:", !isLoading && !isFetching);
 
     return (
         <div style={{ backgroundColor: "#3C4046", minHeight: "100vh" }}>
-            <div className="container">
-                <h1>Your NFTs</h1>
+            <div className="container pt-lg-2">
                 <CardGroup style={{ justifyContent: "center" }}>
                     {data !== null &&
                     isAuthenticated &&
@@ -28,9 +26,11 @@ const Inventory = () => {
                                   data={item}
                                   symbol={_symbol}
                                   key={index}
+                                  name
+                                  tokenId
+                                  cardInfo
                                   listButton
                                   transferButton
-                                  cardInfo
                               />
                           ))
                         : ""}
