@@ -7,6 +7,13 @@ export const chainInfo = [
         prefix: <ETHLogo />,
         symbol: "ETH",
         blockExplorerUrl: "https://etherscan.io/",
+        collections: [
+            {
+                name: "Bored Ape Yacht Club",
+                address: "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+                image: "https://lh3.googleusercontent.com/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wv8t3pxDGHoJBzDB=s0",
+            },
+        ],
     },
     {
         id: "0x3",
