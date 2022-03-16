@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useChain, useMoralis, useMoralisWeb3Api } from "react-moralis";
+import { useState } from "react";
 import { CardGroup } from "react-bootstrap";
+import { useChain, useMoralis } from "react-moralis";
 import { CustomCard } from "../components/Card";
-import { getCollectionByChain } from "../utils/Networks";
-import { debounce } from "lodash";
-import useNFTTokenIds from "../hooks/useNFTTokenIds";
 import CollectionSelector from "../components/CollectionSelector";
+import useNFTTokenIds from "../hooks/useNFTTokenIds";
+import { getCollectionByChain } from "../utils/Networks";
 
 /*
 allow users to request collection to be listed
@@ -29,8 +28,13 @@ const Explore = () => {
         address = collection?.value;
     }
 
-    const { data: NFTTokenIds, error: NFTsFetchError } =
-        useNFTTokenIds(address);
+    const {
+        getNFTTokenIds,
+        data: NFTTokenIds,
+        error,
+        isLoading,
+        isFetching,
+    } = useNFTTokenIds(address);
 
     const RenderCollections = () =>
         collections?.map((obj, index) => (
@@ -43,7 +47,7 @@ const Explore = () => {
         ));
 
     console.log(NFTTokenIds);
-    console.log("Status", NFTsFetchError);
+    console.log("Status", error);
 
     return (
         <div style={{ backgroundColor: "#3C4046", minHeight: "100vh" }}>
