@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useChain, useMoralis } from "react-moralis";
-import { getCollectionByChain } from "../utils/Networks";
 import Select from "react-select";
+import { getCollectionByChain } from "../utils/Networks";
 
 const CollectionSelector = ({ setCollection }) => {
     const { chainId } = useChain();

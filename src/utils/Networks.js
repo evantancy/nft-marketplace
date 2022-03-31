@@ -1,4 +1,4 @@
-import { AvaxLogo, PolygonLogo, BSCLogo, ETHLogo } from "./Logos";
+import { AvaxLogo, BSCLogo, ETHLogo, PolygonLogo } from "./Logos";
 export const chainInfo = [
     { id: "0x539", label: "Local", prefix: "🥐", symbol: "🥐" },
     {
@@ -15,6 +15,7 @@ export const chainInfo = [
             },
         ],
     },
+    {},
     {
         id: "0x3",
         label: "Ropsten Testnet",

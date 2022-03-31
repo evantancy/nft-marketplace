@@ -1,19 +1,19 @@
 // import { useMoralis } from "react-moralis";
 // import Home from "./pages/Home";
+import { Container, Nav, Navbar } from "react-bootstrap";
+import {
+    BrowserRouter as Router,
+    Link,
+    Outlet,
+    Route,
+    Routes,
+} from "react-router-dom";
+import { ConnectButton } from "web3uikit";
+import ChainSelector from "./components/ChainSelector";
+import ErrorPage from "./pages/ErrorPage";
 import Explore from "./pages/Explore";
 import Inventory from "./pages/Inventory";
 import Transaction from "./pages/Transaction";
-import ErrorPage from "./pages/ErrorPage";
-import {
-    BrowserRouter as Router,
-    Route,
-    Routes,
-    Link,
-    Outlet,
-} from "react-router-dom";
-import { Nav, Navbar, Container } from "react-bootstrap";
-import { ConnectButton } from "web3uikit";
-import ChainSelector from "./components/ChainSelector";
 
 const Header = () => {
     return (

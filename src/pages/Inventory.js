@@ -1,8 +1,7 @@
-import React from "react";
-import { useNFTBalances, useChain, useMoralis } from "react-moralis";
 import { CardGroup } from "react-bootstrap";
-import { chainInfo } from "../utils/Networks";
+import { useChain, useMoralis, useNFTBalances } from "react-moralis";
 import { CustomCard } from "../components/Card";
+import { chainInfo } from "../utils/Networks";
 
 const Inventory = () => {
     const { isAuthenticated } = useMoralis();
