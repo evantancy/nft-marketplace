@@ -23,11 +23,6 @@ const ChainSelector = () => {
 
     // display all available options based on chains
     // call switchNetwork whenever user selects from dropdown
-    const changeNetwork = (eventKey: string | null) => {
-        if (eventKey == null) return;
-        switchNetwork(eventKey);
-    };
-
     const RenderDropdown = () => {
         return (
             <DropdownButton
@@ -36,7 +31,7 @@ const ChainSelector = () => {
                 onSelect={(
                     eventKey: string | null,
                     e: React.SyntheticEvent<unknown>
-                ) => changeNetwork(eventKey)}
+                ) => switchNetwork(eventKey!)}
             >
                 {chainInfo.map((obj, index) => (
                     <Dropdown.Item eventKey={obj.id} key={index}>
@@ -62,17 +57,15 @@ const ChainSelector = () => {
     // case: user changes chain
     Moralis.onChainChanged((chain) => {
         // console.log("Chain changed", chain);
-        if (chain == null) return;
-        chainHandler(chain);
+        chainHandler(chain!);
     });
     // case: user first connected to website
     Moralis.onWeb3Enabled((result) => {
         // console.log("Account connected", result);
-        if (result.chainId == null) return;
-        chainHandler(result.chainId);
+        chainHandler(result.chainId!);
     });
 
-    return <div>{chainId !== null ? RenderDropdown() : ""}</div>;
+    return <div>{chainId && RenderDropdown()}</div>;
 };
 
 export default ChainSelector;

@@ -8,7 +8,7 @@ import {
     ListGroupItem,
 } from "react-bootstrap";
 import { resolveLink } from "../utils/IpfsUtils";
-import MoralisTypes from "moralis";
+import MoralisType from "moralis";
 
 // TODO: somehow fix missing
 interface NFTProps {
