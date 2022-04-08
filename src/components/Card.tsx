@@ -1,14 +1,43 @@
+import React from "react";
 import {
-    Card,
     Button,
-    ListGroup,
-    ListGroupItem,
+    Card,
     Container,
     Image,
+    ListGroup,
+    ListGroupItem,
 } from "react-bootstrap";
 import { resolveLink } from "../utils/IpfsUtils";
+import MoralisTypes from "moralis";
 
-export const CustomCard = (props) => {
+// TODO: somehow fix missing
+interface NFTProps {
+    data: {
+        token_address: string;
+        token_id: string;
+        contract_type: string;
+        owner_of: string;
+        block_number: string;
+        block_number_minted: string;
+        token_uri?: string | undefined;
+        metadata?: string | undefined;
+        synced_at?: string | undefined;
+        amount?: string | undefined;
+        name: string;
+        symbol: string;
+        image?: string;
+    };
+}
+
+interface CardProps extends NFTProps {
+    cardInfo: boolean;
+    transferButton?: boolean;
+    listButton?: boolean;
+    price?: number;
+    symbol?: string;
+}
+
+export const CustomCard: React.FC<any> = (props) => {
     // const name =
     //     props.data?.name?.length > 20 ? props.data?.name?.substring(0, 16) : props.data?.name;
     const name = props.data?.name;
@@ -23,9 +52,8 @@ export const CustomCard = (props) => {
     const type = props.data?.contract_type;
     // only show symbol if price specified i.e. listed for sale
     // TODO: fetch price from contract
-    const price = "";
-
-    const currencySymbol = price > 0 ? props.symbol : "";
+    const price = props?.price;
+    const currencySymbol = props?.symbol;
 
     const imgContainerStyle = {
         paddingTop: 5,
@@ -112,7 +140,7 @@ export const CustomCard = (props) => {
     // TODO: load IPFS images quickly
     return (
         <Card className="mb-2 mx-1" style={cardStyle}>
-            <a href={props.link} target="_blank" rel="noopener noreferrer">
+            <a href="" target="_blank" rel="noopener noreferrer">
                 <Container className="" style={imgContainerStyle}>
                     {props.data?.image?.search("mp4") >= 0
                         ? RenderVideo()
@@ -120,10 +148,8 @@ export const CustomCard = (props) => {
                 </Container>
                 <Card.Body style={cardTitleStyle}>
                     <Card.Title className="float-start" style={cardTextStyle}>
-                        {props.name && <p style={cardInfoStyle}>{name}</p>}
-                        {props.tokenId && (
-                            <p style={cardInfoStyle}>{tokenId}</p>
-                        )}
+                        <p style={cardInfoStyle}>{name}</p>
+                        <p style={cardInfoStyle}>{tokenId}</p>
                     </Card.Title>
                     <Card.Title className="float-end" style={cardTextStyle}>
                         {price} {currencySymbol}

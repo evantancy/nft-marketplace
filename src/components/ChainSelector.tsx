@@ -13,17 +13,30 @@ import { chainInfo } from "../utils/Networks";
 const ChainSelector = () => {
     const { switchNetwork, chainId } = useChain();
     const { Moralis } = useMoralis();
-    const [selectedChain, setSelectedChain] = useState("Select Chain");
-    const [selectedLogo, setSelectedLogo] = useState("");
+    const [selectedChain, setSelectedChain] = useState<string | undefined>(
+        "Select Chain"
+    );
+    // this is extremely jank and not recommended
+    const [selectedLogo, setSelectedLogo] = useState<
+        JSX.Element | string | undefined
+    >();
 
     // display all available options based on chains
     // call switchNetwork whenever user selects from dropdown
+    const changeNetwork = (eventKey: string | null) => {
+        if (eventKey == null) return;
+        switchNetwork(eventKey);
+    };
+
     const RenderDropdown = () => {
         return (
             <DropdownButton
                 id="dropdown-button-chainselector"
                 title={[selectedLogo, " ", selectedChain]}
-                onSelect={switchNetwork}
+                onSelect={(
+                    eventKey: string | null,
+                    e: React.SyntheticEvent<unknown>
+                ) => changeNetwork(eventKey)}
             >
                 {chainInfo.map((obj, index) => (
                     <Dropdown.Item eventKey={obj.id} key={index}>
@@ -35,8 +48,9 @@ const ChainSelector = () => {
     };
 
     // set dropdown button text to current chain
-    const chainHandler = (_chainId) => {
+    const chainHandler = (_chainId: string) => {
         const currChainInfo = chainInfo.find((item) => item.id === _chainId);
+        if (currChainInfo === undefined) return;
         try {
             setSelectedChain(currChainInfo.label);
             setSelectedLogo(currChainInfo.prefix);
@@ -48,11 +62,13 @@ const ChainSelector = () => {
     // case: user changes chain
     Moralis.onChainChanged((chain) => {
         // console.log("Chain changed", chain);
+        if (chain == null) return;
         chainHandler(chain);
     });
     // case: user first connected to website
     Moralis.onWeb3Enabled((result) => {
         // console.log("Account connected", result);
+        if (result.chainId == null) return;
         chainHandler(result.chainId);
     });
 
