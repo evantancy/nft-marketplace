@@ -123,5 +123,5 @@ export const chainInfo = [
     },
 ];
 
-export const getCollectionByChain = (chainId) =>
+export const getCollectionByChain = (chainId: string) =>
     chainInfo.find((item) => item.id === chainId)?.collections;

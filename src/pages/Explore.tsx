@@ -15,8 +15,8 @@ render individual collection when set
 const Explore = () => {
     const { chainId } = useChain();
     const { Moralis } = useMoralis();
-    const [collection, setCollection] = useState(null);
-    const collections = getCollectionByChain(chainId);
+    const [collection, setCollection] = useState<string | null>(null);
+    const collections = getCollectionByChain(chainId!);
 
     // required to fetch data
     const appId = process.env.REACT_APP_MORALIS_APP_ID;
